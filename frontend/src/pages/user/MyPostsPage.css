@@ -1,0 +1,145 @@
+.my-posts-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+}
+
+.page-header h1 {
+    font-size: var(--font-size-2xl);
+    margin: 0;
+    color: var(--color-text-primary);
+}
+
+.page-subtitle {
+    color: var(--color-text-secondary);
+    margin: var(--space-xs) 0 0 0;
+}
+
+/* Filters/Actions row */
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+/* Table */
+.table-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.posts-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.posts-table th,
+.posts-table td {
+    padding: var(--space-md) var(--space-lg);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.posts-table th {
+    background: var(--color-bg-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.posts-table tr:last-child td {
+    border-bottom: none;
+}
+
+.posts-table tr:hover td {
+    background-color: var(--color-bg-primary);
+}
+
+.post-title-link {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.post-title-link:hover {
+    color: var(--color-accent);
+}
+
+.actions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: flex-end;
+}
+
+/* Status Select */
+.status-select {
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-medium);
+    font-size: var(--font-size-sm);
+    background: white;
+    cursor: pointer;
+}
+
+/* Badge */
+.badge {
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background: var(--color-success-light);
+    color: var(--color-success);
+}
+
+.badge-warning {
+    background: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-xl);
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .posts-table {
+        min-width: 600px;
+    }
+}
