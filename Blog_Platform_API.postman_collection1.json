@@ -1,0 +1,246 @@
+{
+  "info": {
+    "name": "Blog Platform API1",
+    "description": "API collection for Blog Platform with Admin Panel",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"username\": \"admin\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "{{base_url}}/auth/admin/register"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "{{base_url}}/auth/admin/login"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "pm.collectionVariables.set('token', jsonData.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Public Posts",
+      "item": [
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/posts?page=1&per_page=10"
+          }
+        },
+        {
+          "name": "Get Post by Slug",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/posts/my-first-post"
+          }
+        },
+        {
+          "name": "Get All Tags",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/posts/tags"
+          }
+        },
+        {
+          "name": "Get Posts by Tag",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/posts/tags/technology"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments (Public & User)",
+      "item": [
+        {
+          "name": "Get Comments for Post",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/posts/1/comments"
+          }
+        },
+        {
+          "name": "Submit Comment (Guest)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guest_name\": \"John Doe\",\n  \"guest_email\": \"john@example.com\",\n  \"content\": \"Great article!\"\n}"
+            },
+            "url": "{{base_url}}/posts/1/comments"
+          }
+        },
+        {
+          "name": "Submit Comment (User)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"User comment here\"\n}"
+            },
+            "url": "{{base_url}}/user/posts/1/comments"
+          }
+        },
+        {
+          "name": "Delete Comment (User)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/comments/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Comments",
+      "item": [
+        {
+          "name": "Get All Comments",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/admin/comments"
+          }
+        },
+        {
+          "name": "Approve Comment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"action\": \"approve\" }"
+            },
+            "url": "{{base_url}}/admin/comments/1"
+          }
+        },
+        {
+          "name": "Reject Comment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"action\": \"reject\" }"
+            },
+            "url": "{{base_url}}/admin/comments/1"
+          }
+        },
+        {
+          "name": "Edit Comment (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"content\": \"Updated comment by admin\" }"
+            },
+            "url": "{{base_url}}/admin/comments/1"
+          }
+        },
+        {
+          "name": "Delete Comment (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/admin/comments/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RSS",
+      "item": [
+        {
+          "name": "Get RSS Feed",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/rss"
+          }
+        },
+        {
+          "name": "Get RSS Info",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/rss/info"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health"
+      }
+    }
+  ]
+}
